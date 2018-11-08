@@ -2,17 +2,13 @@
 title: Skirmish Digital
 toc: true
 imports:
-  Installation: ./_data/Installation.yml
-  Controls: ./_data/controls.yml
+  - Installation: ./_data/Installation.yml
+  - Controls: ./_data/controls.yml
 contents:
 ---
-{% if title %}# {{ title }} 
+{% if title != "" %}# {{ title }}
 
-{% endif %}{% if toc %}## Table of Contents{% for section in contents%}
-* [{{ section[0] }}](#{{ section[0] }}){% endfor %}
+{% endif %}{% if toc %}## Table of Contents{% for i in contents%}{% for obj in i%}
+* [{{ obj[0] }}](#{{ obj[0] }}){% endfor %}{% endfor %}
 
-{% endif %}{% for section in contents%}## {{ section[0] }}
-{% for subsection in section[1] %}### {{ subsection[0] }}
-{% for content in subsection[1] %}{% for item in content %}* **{{ item[0] }}**: {{ item[1] }}{% endfor %}
-{% endfor %}
-{% endfor %}{% endfor %}
+{% endif %}{% for item in contents %}{{item | md: 2}}{% endfor %}
