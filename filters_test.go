@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 	"strings"
 	"testing"
 
@@ -76,7 +75,6 @@ ordered-item:
 	Add("int", nil, fmt.Sprintln(ts["int"]))
 	Add("float", nil, fmt.Sprintln(ts["float"]))
 	Add(`\[\]interface{}`, nil, fmt.Sprintf("%s\n%d\n%0.7f\n", ts["string"], ts["int"], ts["float"]))
-	fmt.Println(reflect.TypeOf(ts["header"]))
 	Add("header", nil, "# Heading 1\n")
 	Add("list-header", nil, "# Heading 1\n")
 	Add("header", []int{0}, "# Heading 1\n")
