@@ -2,11 +2,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"reflect"
 
 	"regexp"
 	"strings"
@@ -64,51 +62,6 @@ func HandleError(e error) {
 	if e != nil {
 		panic(e)
 	}
-}
-
-// Markdown returns the markdown representation of v.
-//
-// header determines which header to use at the base level (default 1).
-func Markdown(v interface{}, header ...int) string {
-	if len(header) == 0 || header[0] < 1 {
-		header = []int{1}
-	}
-	h := header[0]
-	out := new(bytes.Buffer)
-	switch t := v.(type) {
-	case []interface{}:
-		for _, value := range t {
-			fmt.Fprint(out, Markdown(value, h))
-		}
-	case map[string]interface{}:
-		for key, value := range t {
-			fmt.Fprintf(out, "%s %s\n%s", strings.Repeat("#", h), key, Markdown(value, h))
-		}
-	case map[interface{}]interface{}:
-		var frmt string
-		for key, value := range t {
-			switch tv := value.(type) {
-			case string:
-				switch key.(type) {
-				case string:
-					frmt = "* **%s**: %s"
-				case int:
-					frmt = "%d. %s"
-				}
-				fmt.Fprintf(out, frmt+"\n", key, value)
-			case []interface{}:
-				fmt.Fprintf(out, "%s %s\n%s", strings.Repeat("#", h+1), key, Markdown(tv, h))
-				// TODO: Closest, but still not good enough
-				fmt.Fprintln(out)
-			}
-		}
-	}
-	return out.String()
-}
-
-// Type returns the name of an interface's type.
-func Type(v interface{}) string {
-	return fmt.Sprint(reflect.TypeOf(v))
 }
 
 func main() {
